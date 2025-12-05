@@ -21,17 +21,17 @@ def get_db() -> Generator[Session, None, None]:
 
 
 @app.get("/")
-async def root():
+def root():
     return {"message": "Hello World"}
 
 
 @app.get("/cheese_types/", response_model=list[schemas.CheeseType])
-async def read_cheese_types(db: Annotated[Session, Depends(get_db)]):
+def read_cheese_types(db: Annotated[Session, Depends(get_db)]):
     return crud.get_all_cheese_types(db=db)
 
 
 @app.post("/cheese_types/", response_model=schemas.CheeseType)
-async def create_cheese_type(
+def create_cheese_type(
     cheese_type: schemas.CheeseTypeCreate,
     db: Annotated[Session, Depends(get_db)]
 ):
@@ -48,7 +48,7 @@ async def create_cheese_type(
 
 
 @app.get("/cheese/", response_model=list[schemas.Cheese])
-async def read_cheese(
+def read_cheese(
     db: Annotated[Session, Depends(get_db)],
     packaging_type: PackagingType | None = None,
     cheese_type: str | None = None,
@@ -59,7 +59,7 @@ async def read_cheese(
 
 
 @app.get("/cheese/{cheese_id}/", response_model=schemas.Cheese)
-async def read_single_cheese(
+def read_single_cheese(
     cheese_id: int,
     db: Annotated[Session, Depends(get_db)]
 ):
@@ -72,7 +72,7 @@ async def read_single_cheese(
 
 
 @app.post("/cheese/", response_model=schemas.Cheese)
-async def create_cheese(
+def create_cheese(
     cheese: schemas.CheeseCreate,
     db: Annotated[Session, Depends(get_db)]
 ):
